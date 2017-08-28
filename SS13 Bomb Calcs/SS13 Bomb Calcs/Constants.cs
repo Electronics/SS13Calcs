@@ -11,6 +11,7 @@ namespace SS13_Bomb_Calcs {
 		public static float TANK_FRAGMENT_PRESSURE = 40*ATMOSPHERE;
 		public static float TANK_FRAGMENT_SCALE = 6*ATMOSPHERE;
 		public static float T0C = 273.15F;
+        public static float T20C = 293.15F;
 		public static float PLASMA_MINIMUM_BURN_TEMPERATURE = 100+T0C;
         public static float FIRE_MINIMUM_TEMPERATURE_TO_EXIST = 100 + T0C;
 		public static float PLASMA_OXYGEN_FULLBURN = 10;
@@ -21,6 +22,7 @@ namespace SS13_Bomb_Calcs {
 		public static float MAX_TANK_PRESSURE = 10*ATMOSPHERE;
 		public static float TANK_VOLUME = 70;
 		public static float MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER = 0.5F;
+        public static float PREFILLED_CANISTER_PRESSURE = 90 * ATMOSPHERE * 0.5F;
 
 		public static float R_IDEAL_GAS_EQUATION = 8.31F;
 	

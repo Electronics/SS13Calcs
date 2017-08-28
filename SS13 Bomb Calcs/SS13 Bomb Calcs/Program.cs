@@ -9,6 +9,30 @@ namespace SS13_Bomb_Calcs {
 	class Program {
         static void Main(string[] args) {
 
+            Tank o2tank = new Tank(Constants.TANK_VOLUME, Constants.MAX_TANK_PRESSURE , Constants.T0C-200 , 0, 1F , 0 , 0 , 0 , 0 , 0 , 0);
+
+            for (float stopTemp = 300; stopTemp < 20000; stopTemp += 10) {
+            //float stopTemp = 12000+Constants.T0C;
+
+                Tank canister = new Tank(Constants.TANK_VOLUME , Constants.MAX_TANK_PRESSURE , Constants.T20C , 0.66666F , 1 - 0.66666F , 0 , 0 , 0 , 0 , 0 , 0);
+
+                // let's start off the burn inside the cannsiter
+                canister.temperature = Constants.PLASMA_MINIMUM_BURN_TEMPERATURE;
+
+                while (true) {
+                    // simulate some time
+                    BombCalcs.react(canister);
+                    if (canister.temperature > stopTemp) break;
+                }
+                //Debug.WriteLine($"Canister got to: {canister}");
+
+                //Tank plasmaTank = new Tank(Constants.TANK_VOLUME,Constants.MAX_TANK_PRESSURE, canister.temperature, canister.gases.plasma.moles/canister.getTotalMoles(), canister.gases.oxygen.moles/canister.getTotalMoles(), 0, canister.gases.carbonDioxide.moles/canister.getTotalMoles(),0,0,0,0);
+
+
+                //Debug.WriteLine($"New plasma tank: {plasmaTank}");
+                Debug.WriteLine($"At {stopTemp}, Explosion range: {runBomb(o2tank , canister)}");
+            }
+
             /*float best = 0;
             float bestPlasma = 0;
             float besto2 = 0;
@@ -38,7 +62,7 @@ namespace SS13_Bomb_Calcs {
             Debug.WriteLine($"Best: {best} - Plasma:{bestPlasma}K O2:{besto2}K with contents co2:{bestco2}, n2o:{bestn2o}, freon:{bestfreon}");
             */
 
-            Debug.WriteLine(runBomb(1763 , 73.15F , 0.510F , 0 , 0));
+            //Debug.WriteLine(runBomb(1763 , 73.15F , 0.510F , 0 , 0));
             
 		}
 
@@ -108,6 +132,32 @@ namespace SS13_Bomb_Calcs {
 
 			Tank newTank = BombCalcs.merge(tank1 , tank2);
 
+            int iteration;
+            for(iteration=0; iteration<100;iteration++) {
+                if(newTank.pressure > Constants.TANK_FRAGMENT_PRESSURE) {
+                    //Debug.WriteLine($"Pressure is big enough to fragment tank after {iteration} iterations");
+                    BombCalcs.react(newTank);
+                    //Debug.WriteLine($"RUPTURE: 1st Iteration, tank is now: {newTank}");
+                    BombCalcs.react(newTank);
+                    //Debug.WriteLine($"RUPTURE: 2nd Iteration, tank is now: {newTank}");
+                    BombCalcs.react(newTank);
+                    //Debug.WriteLine($"RUPTURE: 3rd Iteration, tank is now: {newTank}");
+
+                    //KABOOM
+                    range = BombCalcs.explode(newTank);
+                    break;
+                }
+                if (!BombCalcs.react(newTank)) break;
+                //Debug.WriteLine($"{iteration}, tank is now: {newTank}");
+                iteration++;
+            }
+
+            return range;
+        }
+
+        static float runBomb(Tank tank1, Tank tank2) {
+            float range = 0;
+            Tank newTank = BombCalcs.merge(tank1 , tank2);
             int iteration;
             for(iteration=0; iteration<100;iteration++) {
                 if(newTank.pressure > Constants.TANK_FRAGMENT_PRESSURE) {

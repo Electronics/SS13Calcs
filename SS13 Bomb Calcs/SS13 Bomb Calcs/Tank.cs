@@ -24,7 +24,7 @@ namespace SS13_Bomb_Calcs {
 
 		public void fill(float pressure, float temperature, float plasmaPercentage, float oxygenPercentage, float nitrogenPercentage, float carbonDioxidePercentage, float waterPercentage, float freonPercentage, float nitrousPercentage, float BZPercentage) {
 			float totalPercentage = plasmaPercentage + oxygenPercentage + nitrogenPercentage + carbonDioxidePercentage + waterPercentage + freonPercentage + nitrousPercentage + BZPercentage;
-			if (totalPercentage != 1) throw new ArithmeticException();
+			if (totalPercentage > 1.0001 || totalPercentage < 0.9999) throw new ArithmeticException($"Total percentage added up to {totalPercentage}");
 
 			this.pressure = pressure;
 			this.temperature = temperature;
