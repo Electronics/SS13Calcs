@@ -1,0 +1,6 @@
+c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.exe.config
+c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.exe
+c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.pdb
+c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.csprojResolveAssemblyReference.cache
+c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.exe
+c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.pdb
