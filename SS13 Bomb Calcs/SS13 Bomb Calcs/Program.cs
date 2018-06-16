@@ -33,7 +33,7 @@ namespace SS13_Bomb_Calcs {
                 Debug.WriteLine($"At {stopTemp}, Explosion range: {runBomb(o2tank , canister)}");
             }*/
 
-            calculateBestPureGivenPressure(3036);
+            //calculateBestPureGivenPressure(3036);
 
 
             /*float best = 0;
@@ -65,7 +65,7 @@ namespace SS13_Bomb_Calcs {
             Debug.WriteLine($"Best: {best} - Plasma:{bestPlasma}K O2:{besto2}K with contents co2:{bestco2}, n2o:{bestn2o}, freon:{bestfreon}");*/
 
 
-            //Debug.WriteLine(runBomb(1763 , 73.15F , 0.510F , 0 , 0));
+            Debug.WriteLine(runBomb(5064, 500,0.24F,0,0));
 
         }
 

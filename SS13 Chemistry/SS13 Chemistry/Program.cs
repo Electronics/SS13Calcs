@@ -16,6 +16,8 @@ namespace SS13_Chemistry {
         static void Main(string[] args) {
             Console.SetWindowSize(Console.WindowWidth + 50 , Console.WindowHeight+15);
 
+            Extractors.initSSL();
+
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/alcohol_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/blob_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/drink_reagents.dm"));
@@ -32,6 +34,7 @@ namespace SS13_Chemistry {
             recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/pyrotechnics.dm"));
             recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/slime_extracts.dm"));
             recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/toxins.dm"));
+            recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/food_and_drinks/recipes/drinks_recipes.dm"));
 
             chemDispenser.AddRange(Extractors.ChemDispenser(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/machinery/chem_dispenser.dm"));
 
@@ -89,7 +92,7 @@ namespace SS13_Chemistry {
                 if (strict ? r.id.Equals(searchString) : r.name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0) { 
                     // matches a recipe by name
                     Console.ForegroundColor = colorTree[depth];
-                    Console.WriteLine($"{prefix}{r}");
+                    Console.WriteLine($"{prefix}{r} || Description: {findReagent(r.results.First().Key , strict).description}");
                     searchSubResults(r, depth, maxDepth);
                     found = true;
                 } else {
@@ -119,13 +122,22 @@ namespace SS13_Chemistry {
         }
 
         static void searchReagents(String searchString, bool strict) {
+            Reagent r = findReagent(searchString , strict);
+            if(r.name!="") {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{r}");
+                Console.ResetColor();
+            }
+        }
+        
+        static Reagent findReagent(String searchString, bool strict) {
+            Reagent returnReagent = new Reagent();
             foreach(Reagent r in reagentList) {
                 if (strict ? r.id.Equals(searchString) : r.name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0 || r.description.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0 || r.id.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0) {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{r}");
+                    returnReagent = r;
                 }
             }
-            Console.ResetColor();
+            return returnReagent;
         }
     }
 }

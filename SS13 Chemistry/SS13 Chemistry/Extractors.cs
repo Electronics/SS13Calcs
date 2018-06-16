@@ -8,8 +8,12 @@ using System.Diagnostics;
 
 namespace SS13_Chemistry {
     class Extractors {
-
         static WebClient wb = new WebClient();
+
+        public static void initSSL() {
+            ServicePointManager.Expect100Continue = true;                
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+        }
 
         public static String getFromURL(String URL) {
             //Debug.WriteLine($"Downloading from {URL}...");

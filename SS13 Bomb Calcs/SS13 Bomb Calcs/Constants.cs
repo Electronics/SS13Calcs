@@ -19,7 +19,7 @@ namespace SS13_Bomb_Calcs {
 		public static float OXYGEN_BURN_BASE_RATE = 1.4F;
 		public static float FIRE_PLASMA_ENERGY_RELEASED = 3000000;
 		public static float PLASMA_BURN_RATE_DELTA = 9;
-		public static float MAX_TANK_PRESSURE = 10*ATMOSPHERE;
+		public static float MAX_TANK_PRESSURE = 10*ATMOSPHERE; // is now 2533kPa? TODO change
 		public static float TANK_VOLUME = 70;
 		public static float MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER = 0.5F;
         public static float PREFILLED_CANISTER_PRESSURE = 90 * ATMOSPHERE * 0.5F;

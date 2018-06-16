@@ -4,3 +4,14 @@ c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemis
 c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.csprojResolveAssemblyReference.cache
 c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.exe
 c:\users\laurie\documents\visual studio 2015\Projects\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.pdb
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13 Bomb Calcs\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.exe.config
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13 Bomb Calcs\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.pdb
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13 Bomb Calcs\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.exe
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13 Bomb Calcs\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.pdb
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13 Bomb Calcs\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.exe
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13Calcs\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.exe.config
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13Calcs\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.exe
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13Calcs\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.pdb
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13Calcs\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.exe
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13Calcs\SS13 Chemistry\SS13 Chemistry\bin\Debug\SS13 Chemistry.pdb
+C:\Users\Laurie\Documents\Visual Studio 2015\Projects\SS13Calcs\SS13 Chemistry\SS13 Chemistry\obj\Debug\SS13 Chemistry.csprojResolveAssemblyReference.cache
