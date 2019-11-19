@@ -19,7 +19,7 @@ namespace SS13_Chemistry {
             Extractors.initSSL();
 
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/alcohol_reagents.dm"));
-            reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/blob_reagents.dm"));
+            reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/cat2_medicine_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/drink_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/drug_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/food_reagents.dm"));
@@ -27,7 +27,8 @@ namespace SS13_Chemistry {
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/other_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/pyrotechnic_reagents.dm"));
             reagentList.AddRange(Extractors.Reagents(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/reagents/toxin_reagents.dm"));
-            
+
+            recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/cat2_medicines.dm"));
             recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/drugs.dm"));
             recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/medicine.dm"));
             recipeList.AddRange(Extractors.Recipes(@"https://github.com/tgstation/tgstation/raw/master/code/modules/reagents/chemistry/recipes/others.dm"));
@@ -53,7 +54,7 @@ namespace SS13_Chemistry {
         }
 
         static void mainMenu() {
-            Console.WriteLine("Search for('?[term]' for reagents, '[Tree depth]![term]' for more defined depth): ");
+            Console.WriteLine("Search for('?[term]' for reagents, '[Tree depth]![term]' for more defined depth), '%' for searching descriptions: ");
             var result = Console.ReadLine();
             if (result.Contains("?")) {
                 Console.WriteLine($"Reagent results: \r\n");
@@ -64,7 +65,11 @@ namespace SS13_Chemistry {
                 else {
                     search(result.Split('!')[1].Trim() , "" , 0 , int.Parse(depthString), false);
                 }
-            } else {
+            } else if (result.Contains("%")) {
+                result = result.Replace('%', ' ').Trim();
+                searchDescriptions(result);
+            }
+            else {
                 Console.WriteLine($"Recipe results: \r\n");
                 search(result.Trim() , "");
             }
@@ -83,8 +88,14 @@ namespace SS13_Chemistry {
                     /*Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"{prefix}{r}");
                     Console.ResetColor();*/
+
                     // let's not bother printing the elements if they're in the chem dispenser
-                    return;
+                    if (r.upgradeTier <= 1)
+                        return;
+                    // however if they are in a higher tier, let's state that it's availble, but also provide sub recipies
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine($"{prefix}{searchString} is available in a {r.upgradeTier} tier dispenser");
+                    Console.ResetColor();
                 }
             }
 
@@ -138,6 +149,18 @@ namespace SS13_Chemistry {
                 }
             }
             return returnReagent;
+        }
+
+        static void searchDescriptions(String searchString) {
+            int colorFlapper = 0;
+            foreach(Reagent r in reagentList) {
+                if (r.description.Contains(searchString)) {
+                    Console.ForegroundColor = colorTree[colorFlapper];
+                    colorFlapper = colorFlapper < colorTree.Count ? colorFlapper + 1 : 0;
+                    Console.WriteLine($"{r} || Description: {r.description}");
+                }
+            }
+            Console.ResetColor();
         }
     }
 }

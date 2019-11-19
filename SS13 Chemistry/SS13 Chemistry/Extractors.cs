@@ -16,7 +16,7 @@ namespace SS13_Chemistry {
         }
 
         public static String getFromURL(String URL) {
-            //Debug.WriteLine($"Downloading from {URL}...");
+            Debug.WriteLine($"Downloading from {URL}...");
             Console.WriteLine($"Downloading from {URL}...");
             try {
                 return wb.DownloadString(URL);
@@ -43,7 +43,7 @@ namespace SS13_Chemistry {
                      reagentList.Last().name = line.Split('"')[1];
                 } else if (line.Contains("id = ")) {
                     reagentList.Last().id = line.Split('"')[1];
-                } else if (line.Contains("description = ")) {
+                } else if (line.Contains("description = ") && !line.Contains("taste_description = ")) {
                     reagentList.Last().description = line.Split('"')[1];
                 }
 
@@ -65,25 +65,38 @@ namespace SS13_Chemistry {
                     recipeList.Last().name = recipeList.Last().id = line;
                 } else if (line.Contains("glass_name")) {
                 } else if (line.Contains("name = ")) {
-                     recipeList.Last().name = line.Split('"')[1];
+                    try {
+                        recipeList.Last().name = line.Split('"')[1].Trim();
+                    } catch (IndexOutOfRangeException e) {
+                        recipeList.Last().name = line.Split('=')[1].Trim();
+                    }
                 } else if (line.Contains("id = ") && !line.Contains("bid = ")) {
-                    recipeList.Last().id = line.Split('"')[1];
+                    recipeList.Last().id = line.Split('=')[1].Trim();
                 } else if (line.Contains("required_reagents = ")) {
                     String req = line.Split('(' , ')')[1];
 
                     foreach(String s in req.Split(',')) {
                         //Debug.WriteLine($"I: {s.Trim().Split('"')[1]} {int.Parse(s.Substring(s.IndexOf('=') + 1).Trim())}");
-                        recipeList.Last().ingredients.Add(s.Trim().Split('"')[1], int.Parse(s.Substring(s.IndexOf('=') + 1).Trim()));
+                        recipeList.Last().ingredients.Add(s.Trim().Split('=')[0].Trim(), int.Parse(s.Substring(s.IndexOf('=') + 1).Trim()));
                     }
                 } else if (line.Contains("results = ")) {
                     String req = line.Split('(' , ')')[1];
 
                     foreach(String s in req.Split(',')) {
                         //Debug.WriteLine($"I: {s.Trim().Split('"')[1]} {int.Parse(s.Substring(s.IndexOf('=') + 1).Trim())}");
-                        recipeList.Last().results.Add(s.Trim().Split('"')[1], int.Parse(s.Substring(s.IndexOf('=') + 1).Trim()));
+                        recipeList.Last().results.Add(s.Trim().Split('=')[0].Trim(), int.Parse(s.Substring(s.IndexOf('=') + 1).Trim()));
                     }
                 } else if (line.Contains("required_temp = ")) {
-                    recipeList.Last().tempNeeded = int.Parse(line.Substring(line.IndexOf('=') + 1).Split('/')[0].Trim());
+                    try {
+                        recipeList.Last().tempNeeded = int.Parse(line.Substring(line.IndexOf('=') + 1).Split('/')[0].Trim());
+                    } catch (FormatException e) {
+                        if (recipeList.Last().name.Contains("TaTP")) {
+                            recipeList.Last().tempNeeded = 450;
+                            Console.WriteLine("TaTP has a random temperature +-50 applied at round start");
+                        } else {
+                            throw e;
+                        }
+                    }
                 }
 
             }
@@ -96,18 +109,32 @@ namespace SS13_Chemistry {
 
             String raw = getFromURL(URL);
 
-            bool inList = false;
+            int tier = -1;
             foreach (String line in raw.Split(new string[] { "\r\n" , "\n" } , StringSplitOptions.RemoveEmptyEntries)) {
-                if (inList) {
+                if (tier >= 0) {
                     if (line.Contains(")")) {
-                        inList = false; // not really needed but if we want to go on for some reason in future update
-                        break;
+                        if (tier > 10) {
+                            break; // hit the emmaged section, so we can finish
+                        }
+                        tier = -1; // OLDCOMMENT:  not really needed but if we want to go on for some reason in future update - AH HAH, thanks past me
                     }
-                    reagentList.Add(new Reagent());
-                    reagentList.Last().id = reagentList.Last().name = line.Split('"')[1].Trim();
+                    string new_id = line.Replace(',', ' ').Trim();
+                    var existing_reagent = reagentList.FirstOrDefault(reagent => reagent.id.Contains(new_id));
+
+                    if (existing_reagent==null) {
+                        reagentList.Add(new Reagent());
+                        reagentList.Last().id = new_id;
+                        reagentList.Last().upgradeTier = tier;
+                    } else {
+                        existing_reagent.upgradeTier = tier;
+                    }
 
                 } else if (line.Contains("var/list/dispensable_reagents = list(")) {
-                    inList = true;
+                    tier = 1;
+                } else if (line.Contains("var/list/upgrade_reagents = list(")) {
+                    tier = 4;
+                } else if (line.Contains("var/list/emagged_reagents = list(")) {
+                    tier = 9999; // emmaged!
                 }
             }
             return reagentList;

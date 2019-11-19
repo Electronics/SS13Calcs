@@ -1,0 +1,1 @@
+[SS13 Bomb Calcs] folder is now deprecated, use the chaosPath.py file for atmos simulations instead. The SS13 Chemistry application gives you breakdowns of recipies, where to find the ingredients and provides a useful searching function for the different reagents in the game.
