@@ -93,17 +93,18 @@ namespace SS13_Chemistry {
                     if (r.upgradeTier <= 1)
                         return;
                     // however if they are in a higher tier, let's state that it's availble, but also provide sub recipies
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    Console.WriteLine($"{prefix}{searchString} is available in a {r.upgradeTier} tier dispenser");
+                    Console.ForegroundColor = colorTree[depth];
+                    Console.WriteLine($"{prefix}\t\t{Reagent.Trim(searchString)} is available in a {r.upgradeTier} tier dispenser");
                     Console.ResetColor();
                 }
             }
 
             foreach(Recipe r in recipeList) {
-                if (strict ? r.id.Equals(searchString) : r.name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0) { 
+                if (strict ? r.id.Equals(searchString) : r.name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0) {
                     // matches a recipe by name
+                    Reagent recipe_reagent = findReagent(r.results.First().Key, strict);
                     Console.ForegroundColor = colorTree[depth];
-                    Console.WriteLine($"{prefix}{r} || Description: {findReagent(r.results.First().Key , strict).description}");
+                    Console.WriteLine($"{prefix}{r.Short()}" + ((depth > 1 || string.IsNullOrWhiteSpace(recipe_reagent.description)) ? "" : $" || Description: {recipe_reagent.description}"));
                     searchSubResults(r, depth, maxDepth);
                     found = true;
                 } else {

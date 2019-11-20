@@ -14,5 +14,9 @@ namespace SS13_Chemistry {
         public override string ToString() {
             return $"{id}: {name} - {description}";
         }
+
+        public static string Trim(string input) {
+            return input.Replace("/datum/reagent/", "").Replace("medicine/", "").Replace("C2/", "").Replace("consumable/", "");
+        }
     }
 }

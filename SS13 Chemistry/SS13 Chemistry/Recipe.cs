@@ -24,5 +24,20 @@ namespace SS13_Chemistry {
             builder += $"; required temp: {tempNeeded}";
             return builder;
         }
+
+        public string Short() {
+            String builder = $"{Reagent.Trim(id)} - {Reagent.Trim(name)}, Results: ";
+            foreach (KeyValuePair<String, int> x in results) {
+                builder += $"{Reagent.Trim(x.Key)} - {x.Value}, ";
+            }
+            builder += $"; Ingredients: ";
+            foreach (KeyValuePair<String, int> x in ingredients) {
+                builder += $"{Reagent.Trim(x.Key)} - {x.Value}, ";
+            }
+            if (tempNeeded > 0) {
+                builder += $"; temp: {tempNeeded}";
+            }
+            return builder;
+        }
     }
 }
