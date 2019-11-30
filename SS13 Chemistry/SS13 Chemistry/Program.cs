@@ -101,8 +101,12 @@ namespace SS13_Chemistry {
 
             foreach(Recipe r in recipeList) {
                 if (strict ? r.id.Equals(searchString) : r.name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >=0) {
-                    // matches a recipe by name
-                    Reagent recipe_reagent = findReagent(r.results.First().Key, strict);
+					// matches a recipe by name
+					Reagent recipe_reagent;
+					if (r.results.Count < 1)
+						recipe_reagent = new SS13_Chemistry.Reagent();
+					else
+						recipe_reagent = findReagent(r.results.First().Key , strict);
                     Console.ForegroundColor = colorTree[depth];
                     Console.WriteLine($"{prefix}{r.Short()}" + ((depth > 1 || string.IsNullOrWhiteSpace(recipe_reagent.description)) ? "" : $" || Description: {recipe_reagent.description}"));
                     searchSubResults(r, depth, maxDepth);
